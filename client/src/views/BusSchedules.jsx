@@ -1,48 +1,88 @@
 import React from 'react';
 import SingleBusSchedule from './SingleBusSchedule.jsx';
 
+// UTA coords
+// "3328662.500000,6825009.000000"
+const UTAcoords = '3328662.500000,6825009.000000';
+
+// TUT coords
+// "3332742.500000,6819846.000000"
+const TUTcoords = '3332742.500000,6819846.000000';
+
+// TAMK coords
+// "3330355.500000,6826018.000000"
+const TAMKcoords = '3330355.500000,6826018.000000';
 
 const unis = [
     {
         name: 'Keskusta',
         imgSrc: 'images/utaen.png',
+        coords: UTAcoords,
         destinations: [
             {
                 name: 'Hervanta',
-                coords: 'hercoords :D'
+                coords: TUTcoords
             }, {
                 name: 'Kauppi',
-                coords: 'kaupcoords :D'
+                coords: TAMKcoords
             }
         ]
     }, {
         name: 'Hervanta',
         imgSrc: 'images/tuten.png',
+        coords: TUTcoords,
         destinations: [
             {
                 name: 'Keskusta',
-                coords: 'keskoords :DD'
+                coords: UTAcoords
             }, {
                 name: 'Kauppi',
-                coords: 'kaupcoords :D'
+                coords: TAMKcoords
             }
         ]
     }, {
         name: 'Kauppi',
         imgSrc: 'images/tamken2.png',
+        coords: TAMKcoords,
         destinations: [
             {
                 name: 'Hervanta',
-                coords: 'hercoords :D'
+                coords: TUTcoords
             }, {
                 name: 'Keskusta',
-                coords: 'keskoords :DD'
+                coords: UTAcoords
             }
         ]
     }
 ]
 
 export default class BusSchedules extends React.Component {
+
+    componentDidMount() {
+        fetch('route', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'startCoords': UTAcoords,
+                'destCoords': TUTcoords
+            })
+        }).then(res => {
+            if (res.ok) { return res.json() }
+            else { throw Error('error in client promise') }
+
+        }).then(res => {
+            if (res.error) {
+                alert(res.error);
+            } else {
+                console.log(res);
+            }
+
+        })
+    }
+
+
     render() {
         return(
             <div className="bus-schedules">
@@ -52,6 +92,7 @@ export default class BusSchedules extends React.Component {
                             imgSrc={uni.imgSrc}
                             key={uni.imgSrc}
                             destinations={uni.destinations}
+                            coords={uni.coords}
                     />);
                 })}
             </div>

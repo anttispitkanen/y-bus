@@ -34,6 +34,7 @@ time, mark, audio, video {
     --y-grey: #333431;
     --y-light-grey: #f1f1f1;
     -webkit-font-smoothing: antialiased;
+    text-decoration: none;
 }
 
 body {
@@ -41,6 +42,7 @@ body {
     height: 100%;
     width: 100%;
     background-color: var(--y-light-grey);
+    color: var(--y-grey);
 }
 
 .App {
@@ -52,18 +54,28 @@ body {
     align-items: center;
 }
 
+.App > h4 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    margin: 30px;
+}
+
 .bus-schedules {
+    /*flex: 1 1 auto;*/
     display: flex;
     justify-content: center;
     /*align-items: center;*/
     flex-wrap: wrap;
     color: var(--y-grey);
+    align-content: stretch;
 }
 
 .uni {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     /*justify-content: center;*/
     align-items: center;
     border-left: 10px solid var(--y-green);
@@ -72,7 +84,7 @@ body {
     /*width: auto;
     min-width: 300px;
     max-width: 350px;*/
-    box-shadow: 1px 1px 1px 1px black;
+    box-shadow: 1px 1px 3px 0px black;
 }
 
 .uni h2 {
@@ -80,6 +92,7 @@ body {
     text-transform: uppercase;
     font-size: 1.5rem;
     text-align: center;
+    letter-spacing: 2px;
 }
 
 .uni h3 {
@@ -93,8 +106,8 @@ body {
 }
 
 img {
-    max-width: 280px;
-    max-height: 150px;
+    max-width: 250px;
+    max-height: 90px;
     width: auto;
     height: auto;
     margin: 30px 10px;
@@ -102,7 +115,7 @@ img {
 
 header {
     background-color: var(--y-grey);
-    height: 80px;
+    height: 110px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -113,10 +126,13 @@ header {
 
 header h1 {
     color: white;
-    padding: 0;
+    padding: 8px 14px;
     margin: 0;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid var(--y-green);
 }
 
 header h1 span {
