@@ -29,7 +29,7 @@ export default class SingleRoute extends React.Component {
                     alert(res.error);
                 } else {
                     let routeData = res[0][0];
-                    console.log(routeData);
+                    //console.log(routeData);
 
                     this.setState({
                         fetched: true,
@@ -92,7 +92,6 @@ export default class SingleRoute extends React.Component {
             //i.e. being on the stop already (hypotethical in this case)
             lineNum = 'It\'s fastest to walk';
         }
-        console.log(lineNum);
         return lineNum;
     }
 
@@ -114,18 +113,10 @@ export default class SingleRoute extends React.Component {
             return 'Just walk :DD';
         }
 
-        //console.log(routeDataObject);
-        //console.log(routeDataObject.legs[0].locs.slice(-1).pop().code);
-
         let stopQueryString = stop.split(' ').join('+');
         let linkToLissu = `http://lissu.tampere.fi/?mobile=1&key=${stopQueryString}&stop=${stopCode}`;
 
         return(<a href={linkToLissu} target="_blank">{stop}</a>);
-
-        // return({
-        //     'departStop': startingPoint,
-        //     'infoLink': linkToLissu
-        // })
     }
 
 
@@ -138,11 +129,15 @@ export default class SingleRoute extends React.Component {
 
         return(
             <div className="single-route">
-                <p>To {this.props.name}:</p>
-                <p>Departure: {this.state.departure}</p>
-                <p>Arrival: {this.state.arrival}</p>
-                <p>Bus number: {this.state.lineNum}</p>
-                <p>Stop: {this.state.stop}</p>
+                <h5>To {this.props.name}:</h5>
+                <i className="fa fa-bus"></i>
+                <div className="single-route-info">
+                    <p>Depart: <br/>{this.state.departure}</p>
+                    <p>Arrival: <br/>{this.state.arrival}</p>
+                    <p>Bus: <br/>{this.state.lineNum}</p>
+                    <p>Stop: <br/>{this.state.stop}</p>
+                </div>
+
             </div>
 
         )

@@ -45,6 +45,11 @@ body {
     color: var(--y-grey);
 }
 
+a {
+	text-decoration: none;
+	color: var(--y-green);
+}
+
 .App {
     height: auto;
     min-height: 100vh;
@@ -132,6 +137,35 @@ img {
     margin: 30px 10px;
 }
 
+.single-route {
+	margin: 10px;
+	padding: 15px;
+	width: 100%;
+	border-left: 5px solid var(--y-green);
+	box-shadow: 1px 1px 4px -1px var(--y-grey);
+	display: flex;
+	/*justify-content: space-between;*/
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.single-route .fa-bus {
+	color: var(--y-green);
+	font-size: 2rem;
+	padding: 20px 40px;
+	/*padding-left: 30px;*/
+
+}
+
+.single-route-info {
+	display: flex;
+	/*margin: 0 30px;*/
+}
+
+.single-route-info p {
+	margin: 5px;
+}
+
 header {
     background-color: var(--y-grey);
     height: 110px;
@@ -169,7 +203,7 @@ footer {
     flex-wrap: wrap;
     color: white;
     border-top: 5px solid var(--y-green);
-    margin-top: 5px;
+    margin-top: 15px;
 }
 
 
@@ -196,5 +230,5 @@ footer .copyright a {
 }
 
 footer, header {
-    box-shadow: 0px 0px 3px 0px var(--y-grey);
+    box-shadow: 0px 0px 4px 0px var(--y-grey);
 }
