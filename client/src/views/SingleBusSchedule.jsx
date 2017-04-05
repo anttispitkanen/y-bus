@@ -1,10 +1,14 @@
 import React from 'react';
+import SingleRoute from './SingleRoute.jsx';
+
 
 export default class SingleBusSchedule extends React.Component {
 
 
-
     render() {
+
+        //FIXME: optimize image sizes!
+
         return(
             <div className="uni">
                 <a href="#">
@@ -15,18 +19,19 @@ export default class SingleBusSchedule extends React.Component {
                 </a>
 
 
-                { this.props.destinations.map(dest => {
-                    return (
-                        <div className="bus-preview" key={dest.name}>
-                            <span>Next bus to {dest.name}:</span>
-                            <ul>
-                                <li>Departure: XXX</li>
-                                <li>Arrival: YYY</li>
-                                <li>From: ZZZ</li>
-                            </ul>
-                        </div>
+                { this.props.destinations.map((dest, i) => {
+
+                    return(
+                        <SingleRoute
+                            name={dest.name}
+                            startCoords={this.props.coords}
+                            destCoords={dest.coords}
+                            key={i}
+                        />
                     )
                 })}
+
+
             </div>
         )
     }

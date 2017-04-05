@@ -31,14 +31,15 @@ app.post('/route', (req, res) => {
     console.log('start ' + startCoords);
     console.log('dest  ' + destCoords);
 
-    res.send({"body": "jeejee"});
+    // res.send({"body": "jeejee"});
+
 
     let queryURL = `http://api.publictransport.tampere.fi/prod/?${process.env.API_KEY}&${process.env.API_PASS}&request=route&from=${startCoords}&to=${destCoords}&Detail=limited`; //&show=1
 
-    // request(queryURL, (error, response, body) => {
-    //     if (!error && response.statusCode === 200) {
-    //         res.send(body);
-    //     }
-    // })
+    request(queryURL, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+            res.send(body);
+        }
+    })
 
 })

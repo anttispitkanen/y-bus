@@ -58,31 +58,6 @@ const unis = [
 
 export default class BusSchedules extends React.Component {
 
-    componentDidMount() {
-        fetch('route', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'startCoords': UTAcoords,
-                'destCoords': TUTcoords
-            })
-        }).then(res => {
-            if (res.ok) { return res.json() }
-            else { throw Error('error in client promise') }
-
-        }).then(res => {
-            if (res.error) {
-                alert(res.error);
-            } else {
-                console.log(res);
-            }
-
-        })
-    }
-
-
     render() {
         return(
             <div className="bus-schedules">
@@ -99,61 +74,3 @@ export default class BusSchedules extends React.Component {
         )
     }
 }
-
-
-// <div className="uni uta">
-//     <h2>Keskusta</h2>
-//
-//     <img src="images/utaen.png" alt=""/>
-//     <h3>To Hervanta:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-//
-//     <h3>To Kauppi:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-// </div>
-//
-// <div className="uni tut">
-//     <h2>Hervanta</h2>
-//
-//     <img src="images/tuten.png" alt="" />
-//     <h3>To Keskusta:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-//
-//     <h3>To Kauppi:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-// </div>
-//
-// <div className="uni tamk">
-//     <h2>Kauppi</h2>
-//
-//     <img src="images/tamken2.png" alt="" />
-//     <h3>To Hervanta:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-//
-//     <h3>To Keskusta:</h3>
-//     <ul>
-//         <li>Eka :D</li>
-//         <li>Toka :D</li>
-//         <li>Kolmas :D</li>
-//     </ul>
-// </div>

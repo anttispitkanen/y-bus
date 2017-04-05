@@ -8,7 +8,10 @@ class App extends Component {
     return (
       <div className="App">
           <header>
-              <h1><span>Y</span>-bus</h1>
+              <a href="/">
+                  <h1><span>Y</span>-bus</h1>
+              </a>
+
           </header>
 
           <h4>Where are you?</h4>
