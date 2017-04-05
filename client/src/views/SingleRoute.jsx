@@ -129,12 +129,13 @@ export default class SingleRoute extends React.Component {
 
         return(
             <div className="single-route">
-                <h5>To {this.props.name}:</h5>
                 <i className="fa fa-bus"></i>
+                <h5>To <span>{this.props.name}</span>:</h5>
+
                 <div className="single-route-info">
-                    <p>Depart: <br/>{this.state.departure}</p>
-                    <p>Arrival: <br/>{this.state.arrival}</p>
-                    <p>Bus: <br/>{this.state.lineNum}</p>
+                    <p>Depart: <br/><b>{this.state.departure}</b></p>
+                    <p>Arrival: <br/><b>{this.state.arrival}</b></p>
+                    <p>Bus: <br/><b>{this.state.lineNum}</b></p>
                     <p>Stop: <br/>{this.state.stop}</p>
                 </div>
 
