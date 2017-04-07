@@ -16,7 +16,7 @@ const TAMKcoords = '3330355.500000,6826018.000000';
 const unis = [
     {
         name: 'Keskusta',
-        imgSrc: 'images/utaen.png',
+        imgSrc: 'images/utaen-small.png',
         coords: UTAcoords,
         destinations: [
             {
@@ -29,7 +29,7 @@ const unis = [
         ]
     }, {
         name: 'Hervanta',
-        imgSrc: 'images/tuten.png',
+        imgSrc: 'images/tuten-small.png',
         coords: TUTcoords,
         destinations: [
             {
@@ -42,7 +42,7 @@ const unis = [
         ]
     }, {
         name: 'Kauppi',
-        imgSrc: 'images/tamken2.png',
+        imgSrc: 'images/tamken2-small.png',
         coords: TAMKcoords,
         destinations: [
             {

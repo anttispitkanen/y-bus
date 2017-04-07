@@ -20,7 +20,7 @@ class App extends Component {
 
           <footer>
               <a className="y-logo f-elem" href="http://y-kampus.fi" target="_blank">
-                  <img src="./images/y-kampus.png" alt=""/>
+                  <img src="./images/y-kampus-small.png" alt=""/>
               </a>
 
               <span className="copyright f-elem">
