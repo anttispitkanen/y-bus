@@ -113,13 +113,13 @@ a {
 }
 
 .uni .spinner {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     border-radius: 100%;
     border: 3px solid var(--y-green);
     border-top: 3px solid var(--y-grey);
     animation: 1s spinner linear infinite;
-    margin: 30px;
+    margin: 20px;
 }
 
 @keyframes spinner {

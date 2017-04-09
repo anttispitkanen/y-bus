@@ -123,7 +123,17 @@ export default class SingleRoute extends React.Component {
     render() {
         if (!this.state.fetched) {
             return(
-                <div className="spinner"></div>
+
+                <div className="single-route">
+                    <i className="fa fa-bus"></i>
+                    <h5>To <span>{this.props.name}</span>:</h5>
+
+                    <div className="single-route-info">
+                        <div className="spinner"></div>
+                    </div>
+
+                </div>
+
             )
         }
 

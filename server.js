@@ -23,6 +23,29 @@ app.listen(app.get('port'), () => {
     console.log('listening on port ' + app.get('port'));
 })
 
+
+// UTA coords
+// "3328662.500000,6825009.000000"
+const UTAcoords = '3328662.500000,6825009.000000';
+
+// TUT coords
+// "3332742.500000,6819846.000000"
+const TUTcoords = '3332742.500000,6819846.000000';
+
+// TAMK coords
+// "3330355.500000,6826018.000000"
+const TAMKcoords = '3330355.500000,6826018.000000';
+
+
+// the latest routes stored here
+let latestRoutes = {};
+
+// fetch updated routes every 60 seconds
+// setInterval(() => {
+//     console.log('ny! :D');
+// }, 60000);
+
+
 app.get('/', (req, res) => {
     res.send({ "message": "hit the root"})
 })
@@ -34,8 +57,6 @@ app.post('/route', (req, res) => {
 
     console.log('start ' + startCoords);
     console.log('dest  ' + destCoords);
-
-    // res.send({"body": "jeejee"});
 
 
     let queryURL = `http://api.publictransport.tampere.fi/prod/?${process.env.API_KEY}&${process.env.API_PASS}&request=route&from=${startCoords}&to=${destCoords}&Detail=limited`; //&show=1
