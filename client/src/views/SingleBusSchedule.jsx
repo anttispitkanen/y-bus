@@ -7,8 +7,6 @@ export default class SingleBusSchedule extends React.Component {
 
     render() {
 
-        //FIXME: optimize image sizes!
-
         return(
             <div className="uni">
                 <a href="#">
@@ -23,7 +21,8 @@ export default class SingleBusSchedule extends React.Component {
 
                     return(
                         <SingleRoute
-                            name={dest.name}
+                            destName={dest.name}
+                            depName={this.props.name}
                             startCoords={this.props.coords}
                             destCoords={dest.coords}
                             key={i}

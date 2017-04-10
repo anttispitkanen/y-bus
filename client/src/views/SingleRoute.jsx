@@ -17,8 +17,9 @@ export default class SingleRoute extends React.Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    'startCoords': this.props.startCoords,
-                    'destCoords': this.props.destCoords
+                    // 'startCoords': this.props.startCoords,
+                    // 'destCoords': this.props.destCoords
+                    'name': this.props.depName + this.props.destName
                 })
             }).then(res => {
                 if (res.ok) { return res.json() }
@@ -126,7 +127,7 @@ export default class SingleRoute extends React.Component {
 
                 <div className="single-route">
                     <i className="fa fa-bus"></i>
-                    <h5>To <span>{this.props.name}</span>:</h5>
+                    <h5>To <span>{this.props.destName}</span>:</h5>
 
                     <div className="single-route-info">
                         <div className="spinner"></div>
@@ -140,7 +141,7 @@ export default class SingleRoute extends React.Component {
         return(
             <div className="single-route">
                 <i className="fa fa-bus"></i>
-                <h5>To <span>{this.props.name}</span>:</h5>
+                <h5>To <span>{this.props.destName}</span>:</h5>
 
                 <div className="single-route-info">
                     <p>Depart: <br/><b>{this.state.departure}</b></p>
