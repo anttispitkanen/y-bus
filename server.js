@@ -85,7 +85,7 @@ function updateRoutes() {
                 request(URL, (error, response, body) => {
                     if (!error && response.statusCode === 200) {
                         latestRoutes[route.name] = body;
-                        console.log(route.name + ' updated');
+                        console.log(route.name + ' updated at ' + d.toLocaleTimeString());
                     }
                 })
             }
@@ -108,26 +108,13 @@ function updateRoutes() {
 function checkIfRouteShouldBeUpdated(previousRoute, d) {
     const route = JSON.parse(previousRoute)[0][0];
     const diff = (parseDepartureTime(route) - parseDateNow(d)) % 10000 % 40;
-    return (diff <= 4) ? true : false;
+    return (diff <= 0) ? true : false;
 }
 
 
-//FIXME: should just refer to the already calculated time to start walking
 // returns YYYYMMDDHHMM int for the bus departure
 function parseDepartureTime(data) {
-    let departure;
-    if (data.legs[0].type === 'walk') {
-        //in that case focus on the second leg
-        if (data.legs.length > 1) {
-            //grab the first leg's departure time as THE TIME THAT THE BUS DEPARTS
-            departure = data.legs[1].locs[0].depTime;
-        }
-    } else {
-        //this in case there is no walking to the stop
-        //i.e. being on the stop already (should be hypotethical in this case)
-        departure = data.legs[0].locs[0].depTime;
-    }
-
+    const departure = data.legs[0].locs[0].depTime;
     return parseInt(departure);
 }
 
@@ -142,7 +129,7 @@ function parseDateNow(d) {
 
     dateStringNow += year + month + day + hours + minutes;
 
-    console.log('dateStringNow: ' + dateStringNow + '\n');
+    //console.log('dateStringNow: ' + dateStringNow + '\n');
 
     return parseInt(dateStringNow);
 }
@@ -154,7 +141,6 @@ updateRoutes();
 
 setInterval(() => {
     updateRoutes();
-    //console.log('routes updated at ' + new Date().toLocaleTimeString());
 }, 60000);
 
 
