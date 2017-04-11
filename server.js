@@ -141,6 +141,9 @@ function parseDateNow(d) {
 
     dateStringNow += year + month + day + hours + minutes;
 
+    console.log('dateStringNow:');
+    console.log(dateStringNow + '\n');
+
     return parseInt(dateStringNow);
 }
 
