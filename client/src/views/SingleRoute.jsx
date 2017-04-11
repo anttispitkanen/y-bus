@@ -10,15 +10,13 @@ export default class SingleRoute extends React.Component {
     }
 
     componentDidMount() {
-        //request here
+
             fetch('route', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    // 'startCoords': this.props.startCoords,
-                    // 'destCoords': this.props.destCoords
                     'name': this.props.depName + this.props.destName
                 })
             }).then(res => {
@@ -31,6 +29,7 @@ export default class SingleRoute extends React.Component {
                 } else {
                     let routeData = res[0][0];
                     //console.log(routeData);
+                    console.log(res);
 
                     this.setState({
                         fetched: true,

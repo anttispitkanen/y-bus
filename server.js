@@ -69,32 +69,91 @@ let latestRoutes = {
     KauppiHervanta: null
 };
 
-// fetch updated routes every 60 seconds
-// setInterval(() => {
-//     console.log('ny! :D');
-// }, 60000);
-
 
 
 function updateRoutes() {
+
+    const d = new Date();
+
     routeCoords.forEach(route => {
 
-        const URL = `http://api.publictransport.tampere.fi/prod/?${process.env.API_KEY}&${process.env.API_PASS}&request=route&${route.query}&Detail=limited`; //&show=1
+        // if previous route info exists, check if it should be updated
+        if (latestRoutes[route.name] !== null) {
+            if (checkIfRouteShouldBeUpdated(latestRoutes[route.name], d)) {
+                const URL = `http://api.publictransport.tampere.fi/prod/?${process.env.API_KEY}&${process.env.API_PASS}&request=route&${route.query}&Detail=limited`; //&show=1
 
-        request(URL, (error, response, body) => {
-            if (!error && response.statusCode === 200) {
-                latestRoutes[route.name] = body;
+                request(URL, (error, response, body) => {
+                    if (!error && response.statusCode === 200) {
+                        latestRoutes[route.name] = body;
+                    }
+                })
             }
-        })
+
+        } else {
+            // initial routes fetch
+            const URL = `http://api.publictransport.tampere.fi/prod/?${process.env.API_KEY}&${process.env.API_PASS}&request=route&${route.query}&Detail=limited`; //&show=1
+
+            request(URL, (error, response, body) => {
+                if (!error && response.statusCode === 200) {
+                    latestRoutes[route.name] = body;
+                }
+            })
+        }
+
     })
 }
 
+//returns true if route should be updated, false otherwise
+function checkIfRouteShouldBeUpdated(previousRoute, d) {
+    const route = JSON.parse(previousRoute)[0][0];
+    const diff = (parseDepartureTime(route) - parseDateNow(d)) % 10000 % 40;
+    return (diff <= 4) ? true : false;
+}
+
+
+//FIXME: should just refer to the already calculated time to start walking
+// returns YYYYMMDDHHMM int for the bus departure
+function parseDepartureTime(data) {
+    let departure;
+    if (data.legs[0].type === 'walk') {
+        //in that case focus on the second leg
+        if (data.legs.length > 1) {
+            //grab the first leg's departure time as THE TIME THAT THE BUS DEPARTS
+            departure = data.legs[1].locs[0].depTime;
+        }
+    } else {
+        //this in case there is no walking to the stop
+        //i.e. being on the stop already (should be hypotethical in this case)
+        departure = data.legs[0].locs[0].depTime;
+    }
+
+    return parseInt(departure);
+}
+
+// parse YYYYMMDDHHMM int out of current time
+function parseDateNow(d) {
+    let dateStringNow = '';
+    const year = '' + d.getFullYear();
+    const month = (d.getMonth() + 1 < 10) ? ('0' + (d.getMonth() + 1)) : ('' + (d.getMont() + 1));
+    const day = (d.getDate() < 10) ? ('0' + d.getDate()) : ('' + d.getDate());
+    const hours = (d.getHours() < 10) ? ('0' + d.getHours()) : ('' + d.getHours());
+    const minutes = (d.getMinutes() < 10) ? ('0' + d.getMinutes()) : ('' + d.getMinutes());
+
+    dateStringNow += year + month + day + hours + minutes;
+
+    return parseInt(dateStringNow);
+}
+
+
+
 // update routes on server startup and then every 60 seconds
 updateRoutes();
+
 setInterval(() => {
     updateRoutes();
     console.log('routes updated at ' + new Date().toLocaleTimeString());
 }, 60000);
+
 
 // answer client request with stored route data
 app.post('/route', (req, res) => {

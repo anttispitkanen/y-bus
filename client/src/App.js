@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import BusSchedules from './views/BusSchedules.jsx';
+import TestMap from './views/TestMap.jsx';
 
 class App extends Component {
   render() {
@@ -17,6 +18,8 @@ class App extends Component {
           <h4>Where are you?</h4>
 
           <BusSchedules />
+
+          <TestMap />
 
           <footer>
               <a className="y-logo f-elem" href="http://y-kampus.fi" target="_blank">
