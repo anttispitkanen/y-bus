@@ -85,6 +85,7 @@ function updateRoutes() {
                 request(URL, (error, response, body) => {
                     if (!error && response.statusCode === 200) {
                         latestRoutes[route.name] = body;
+                        console.log(route.name + ' updated');
                     }
                 })
             }
@@ -141,8 +142,7 @@ function parseDateNow(d) {
 
     dateStringNow += year + month + day + hours + minutes;
 
-    console.log('dateStringNow:');
-    console.log(dateStringNow + '\n');
+    console.log('dateStringNow: ' + dateStringNow + '\n');
 
     return parseInt(dateStringNow);
 }
@@ -154,7 +154,7 @@ updateRoutes();
 
 setInterval(() => {
     updateRoutes();
-    console.log('routes updated at ' + new Date().toLocaleTimeString());
+    //console.log('routes updated at ' + new Date().toLocaleTimeString());
 }, 60000);
 
 
