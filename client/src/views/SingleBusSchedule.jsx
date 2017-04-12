@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import SingleRoute from './SingleRoute.jsx';
 
 
@@ -7,14 +9,16 @@ export default class SingleBusSchedule extends React.Component {
 
     render() {
 
+        const linkToHref = this.props.name.toLowerCase();
+
         return(
             <div className="uni">
-                <a href="#">
+                <Link to={`/${linkToHref}`}>
                     <div className="uni-name-image">
                         <h2>{this.props.name}</h2>
                         <img src={this.props.imgSrc} alt="" />
                     </div>
-                </a>
+                </Link>
 
 
                 { this.props.destinations.map((dest, i) => {
@@ -35,3 +39,10 @@ export default class SingleBusSchedule extends React.Component {
         )
     }
 }
+
+// <a href="#">
+//     <div className="uni-name-image">
+//         <h2>{this.props.name}</h2>
+//         <img src={this.props.imgSrc} alt="" />
+//     </div>
+// </a>

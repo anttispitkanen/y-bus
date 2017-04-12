@@ -1,47 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class SingleRoute extends React.Component {
 
+export default class ScheduleRoute extends Component {
     constructor() {
         super();
         this.state = {
-            fetched: false
+            parsed: false,
+
         }
     }
 
+    // componentDidMount() {
+    //     console.log(this.props.routeData[0]);
+    // }
+
     componentDidMount() {
-
-        fetch('route', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'name': this.props.depName + this.props.destName
-            })
-        }).then(res => {
-            if (res.ok) { return res.json() }
-            else { throw Error('error in client promise') }
-
-        }).then(res => {
-            if (res.error) {
-                alert(res.error);
-            } else {
-                let routeData = res[0][0];
-                //console.log(routeData);
-                console.log(res);
-
-                this.setState({
-                    fetched: true,
-                    departure: this.parseDeparture(routeData),
-                    arrival: this.parseArrival(routeData),
-                    lineNum: this.parseLineNumber(routeData),
-                    stop: this.parseStop(routeData)
-                })
-            }
-
+        const data = this.props.routeData[0];
+        this.setState({
+            departure: this.parseDeparture(data),
+            arrival: this.parseArrival(data),
+            lineNum: this.parseLineNumber(data),
+            stop: this.parseStop(data),
+            parsed: true
         })
     }
+
 
     parseDeparture(data) {
         let departure;
@@ -121,26 +104,14 @@ export default class SingleRoute extends React.Component {
 
 
     render() {
-        if (!this.state.fetched) {
-            return(
 
-                <div className="single-route">
-                    <i className="fa fa-bus"></i>
-                    <h5>To <span>{this.props.destName}</span>:</h5>
-
-                    <div className="single-route-info">
-                        <div className="spinner"></div>
-                    </div>
-
-                </div>
-
-            )
+        if (!this.state.parsed) {
+            return(<div>Loading...</div>)
         }
 
         return(
             <div className="single-route">
                 <i className="fa fa-bus"></i>
-                <h5>To <span>{this.props.destName}</span>:</h5>
 
                 <div className="single-route-info">
                     <p>Depart: <br/><b>{this.state.departure}</b></p>

@@ -59,7 +59,22 @@ a {
     align-items: center;
 }
 
-.App > h4 {
+.App .home {
+	height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+/*.App > h4 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    margin: 30px;
+}*/
+
+.home > h4 {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 1.2rem;
