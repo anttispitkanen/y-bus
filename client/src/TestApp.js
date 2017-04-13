@@ -15,14 +15,15 @@ import NotFound from './views/NotFound.jsx';
 import Keskusta from './views/Keskusta.jsx';
 import Kauppi from './views/Kauppi.jsx';
 import Hervanta from './views/Hervanta.jsx';
+import About from './views/About.jsx';
 
 import './App.css';
 
-const About = () => (
-    <div>
-        <h2>About</h2>
-    </div>
-)
+// const About = () => (
+//     <div>
+//         <h2>About</h2>
+//     </div>
+// )
 
 const Topic = ({ match }) => (
     <div>

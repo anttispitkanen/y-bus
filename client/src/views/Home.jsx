@@ -7,7 +7,7 @@ export default class Home extends React.Component {
     render() {
         return(
             <div className="home">
-                <h4>Where are you?</h4>
+                <h4>Buses between Tampere3 universities</h4>
 
                 <BusSchedules />
 
