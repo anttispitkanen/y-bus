@@ -1,0 +1,41 @@
+{
+    "unis": [
+        {
+            "name": "Keskusta",
+            "imgSrc": "images/utaen-small.png",
+            "destinations": [
+                {
+                    "name": "Hervanta",
+                    "route": "KeskustaHervanta"
+                }, {
+                    "name": "Kauppi",
+                    "route": "KeskustaKauppi"
+                }
+            ]
+        }, {
+            "name": "Hervanta",
+            "imgSrc": "images/tuten-small.png",
+            "destinations": [
+                {
+                    "name": "Keskusta",
+                    "route": "HervantaKeskusta"
+                }, {
+                    "name": "Kauppi",
+                    "route": "HervantaKauppi"
+                }
+            ]
+        }, {
+            "name": "Kauppi",
+            "imgSrc": "images/tamken2-small.png",
+            "destinations": [
+                {
+                    "name": "Hervanta",
+                    "route": "KauppiHervanta"
+                }, {
+                    "name": "Keskusta",
+                    "route": "KauppiKeskusta"
+                }
+            ]
+        }
+    ]
+}

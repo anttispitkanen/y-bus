@@ -10,9 +10,6 @@ export default class ScheduleRoute extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     console.log(this.props.routeData[0]);
-    // }
 
     componentDidMount() {
         const data = this.props.routeData[0];

@@ -5,7 +5,6 @@ import {
     BrowserRouter as Router,
     Route,
     Link,
-    Match,
     Switch
 } from 'react-router-dom';
 
