@@ -42,9 +42,8 @@ export default class RouteContainer extends Component {
         }
 
         return(
-            <div>
-                <p>RouteContainer</p>
-                <p>{this.props.destination} fetched</p>
+            <div className="uni">
+                <h2>{this.props.destination}</h2>
                 { this.state.routes.map((route, i) => {
                     return(<ScheduleRoute routeData={route} key={i}/>)
                 })}

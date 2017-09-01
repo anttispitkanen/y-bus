@@ -13,6 +13,7 @@
   "author": "Antti Pitkänen",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^8.0.26",
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
@@ -22,7 +23,7 @@
     "nodemon": "^1.11.0"
   },
   "engines": {
-    "node": "6.2.1",
-    "npm": "3.9.3"
+    "node": "8.4.0",
+    "npm": "5.3.0"
   }
 }
