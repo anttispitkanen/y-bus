@@ -1,0 +1,23 @@
+TODO:
+
+* Serve all requests to '*' with index.html (deep linking)
+
+* Deep linking in FE
+* Menu in FE
+    * Keskusta
+    * Hervanta
+    * Kauppi
+    * About
+    * Y-kampus (just a link to y-kampus.fi)
+* Redux for state management
+* Thunk or Saga for AJAX calls
+
+* Some way of finding out and displaying whether a route involves
+changing bus
+    * Of just do requests without changes?
+
+
+DONE:
+
+* Rewrite API server in TS
+* Figure out a good way to determine if route should be updated?

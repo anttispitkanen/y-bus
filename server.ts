@@ -1,29 +1,33 @@
 'use strict';
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
+
 const express = require('express');
 const axios = require('axios');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const { URL, URLSearchParams } = require('url');
+
 const app = express();
+
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.listen(app.get('port'), () => {
     console.log('listening on port ' + app.get('port'));
 });
+
 // University coordinates
-const UTA_COORDS = '3328662.500000,6825009.000000';
-const TUT_COORDS = '3332742.500000,6819846.000000';
-const TAMK_COORDS = '3330355.500000,6826018.000000';
-const routeCoords = [
+const UTA_COORDS: string = '3328662.500000,6825009.000000';
+const TUT_COORDS: string = '3332742.500000,6819846.000000';
+const TAMK_COORDS: string = '3330355.500000,6826018.000000';
+
+interface RouteCoords {
+    name: string;
+    from: string;
+    to: string;
+}
+
+const routeCoords: RouteCoords[] = [
     {
         name: 'KeskustaHervanta',
         from: UTA_COORDS,
@@ -50,16 +54,59 @@ const routeCoords = [
         to: TUT_COORDS
     }
 ];
-const latestRoutes = {
-    KeskustaHervanta: null,
-    KeskustaKauppi: null,
-    HervantaKeskusta: null,
-    HervantaKauppi: null,
-    KauppiKeskusta: null,
-    KauppiHervanta: null
+
+interface Coordinate {
+    x: number;
+    y: number;
+}
+
+interface Loc {
+    arrTime:    string;
+    depTime:    string;
+    coord:      Coordinate;
+    // property name exitst but can be null
+    name:       string | null;
+    code?:      string;
+    shortCode?: string;
+}
+
+interface Leg {
+    duration:   number;
+    length:     number;
+    // type is "walk" for walking or "1" for bus
+    type:       string;
+    // code is the number of the bus line, undefined if walking
+    code?:      string;
+    locs:       Loc[];
+}
+
+interface Route {
+    duration:   number;
+    length:     number;
+    legs:       Leg[];
+}
+
+interface Routes {
+    KeskustaHervanta:   [ Route[] ] | null;
+    KeskustaKauppi:     [ Route[] ] | null;
+    HervantaKeskusta:   [ Route[] ] | null;
+    HervantaKauppi:     [ Route[] ] | null;
+    KauppiKeskusta:     [ Route[] ] | null;
+    KauppiHervanta:     [ Route[] ] | null;
+}
+
+const latestRoutes: Routes = {
+    KeskustaHervanta:   null,
+    KeskustaKauppi:     null,
+    HervantaKeskusta:   null,
+    HervantaKauppi:     null,
+    KauppiKeskusta:     null,
+    KauppiHervanta:     null
 };
-const API_URL = 'http://api.publictransport.tampere.fi/prod/';
-const setParams = (params, from, to) => {
+
+const API_URL: string = 'http://api.publictransport.tampere.fi/prod/';
+
+const setParams = (params, from: string, to: string): void => {
     params.set('user', process.env.API_USER);
     params.set('pass', process.env.API_PW);
     params.set('request', 'route');
@@ -68,39 +115,45 @@ const setParams = (params, from, to) => {
     params.set('to', to);
     params.set('change_cost', 20);
     params.set('walk_cost', 2);
-};
+}
+
 /**
  * This function updates all the routes that should be updated,
  * all of them on the first call.
  */
-const updateRoutes = () => __awaiter(this, void 0, void 0, function* () {
-    const now = new Date();
-    routeCoords.map((route) => __awaiter(this, void 0, void 0, function* () {
+const updateRoutes = async (): Promise<any> => {
+    const now: Date = new Date();
+
+    routeCoords.map(async (route) => {
         const url = new URL(API_URL);
         const params = new URLSearchParams();
         setParams(params, route.from, route.to);
         url.search = params.toString();
-        const searchUrl = url.toString();
+
+        const searchUrl: string = url.toString();
+
         // if there's no previous route info at all, or
         // it is out of date, update route from API
         if (!latestRoutes[route.name] || routeShouldBeUpdated(latestRoutes[route.name], now)) {
             try {
-                const response = yield axios.get(searchUrl);
+                const response = await axios.get(searchUrl);
                 latestRoutes[route.name] = response.data;
                 console.log(`${route.name} updated at ${now.toLocaleTimeString()}`);
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         }
-    }));
-});
-const routeShouldBeUpdated = (previousRoute, now) => {
+    });
+}
+
+const routeShouldBeUpdated = (previousRoute: [ Route[] ] | null, now: Date): boolean => {
     if (!previousRoute) {
         return true;
     }
-    const departure = previousRoute[0][0];
-    const departureTime = parseDepartureTime(departure);
+
+    const departure: Route = previousRoute[0][0];
+    const departureTime: Date | null = parseDepartureTime(departure);
+
     if (!departureTime) {
         return true;
     }
@@ -125,48 +178,53 @@ const routeShouldBeUpdated = (previousRoute, now) => {
      */
     const diff = departureTime.getTime() - now.getTime();
     return diff <= -180000;
-};
-const parseDepartureTime = (route) => {
+}
+
+const parseDepartureTime = (route: Route): Date | null => {
     // API returns times as strings "YYYYMMDDHHMM",
     // parse that as a date
     try {
-        const depString = route.legs[0].locs[0].depTime;
-        const year = parseInt(depString.slice(0, 4));
-        const month = parseInt(depString.slice(4, 6)) - 1;
-        const day = parseInt(depString.slice(6, 8));
-        const hour = parseInt(depString.slice(8, 10));
-        const minute = parseInt(depString.slice(10, 12));
+        const depString: string = route.legs[0].locs[0].depTime;
+
+        const year: number = parseInt(depString.slice(0, 4));
+        const month: number = parseInt(depString.slice(4, 6)) - 1;
+        const day: number = parseInt(depString.slice(6, 8));
+        const hour: number = parseInt(depString.slice(8, 10));
+        const minute: number = parseInt(depString.slice(10, 12));
         return new Date(year, month, day, hour, minute);
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         return null;
     }
-};
+}
+
 // update routes on server startup...
 updateRoutes();
+
 // ...and then every 60 seconds
 setInterval(() => {
     updateRoutes();
 }, 60000);
+
 // respond to the client requests with the stored route data
 app.post('/route', (req, res) => {
     const { name } = req.body;
+
     // if the route doesn't exist yet, fetch all routes before responding
     if (!latestRoutes[name]) {
         updateRoutes()
-            .then(() => {
-            res.send(latestRoutes[name]);
+        .then(() => {
+            res.send(latestRoutes[name])
         })
-            .catch(err => {
+        .catch(err => {
             console.error(err);
             res.status(500);
             res.send({ 'error': 'something went wrong' });
         });
-    }
-    else {
+    } else {
         // if route is already known, respond with it
         res.send(latestRoutes[name]);
     }
 });
-//# sourceMappingURL=server.js.map
+
+// TODO: serve all requests to '*' with index.html

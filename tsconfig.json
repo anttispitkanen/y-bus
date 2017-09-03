@@ -9,6 +9,6 @@
         "allowJs": true
     },
     "files": [
-        "testi.ts"
+        "server.ts"
     ]
 }
