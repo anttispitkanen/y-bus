@@ -175,6 +175,11 @@ const routeShouldBeUpdated = (previousRoute: [ Route[] ] | null, now: Date): boo
      * This means that the API calculates the time to walk from a given
      * location to the stop to be X minutes, and we treat that as X-3 minutes.
      * In other words we over estimate a person's walking speed by three minutes.
+     *
+     * FIXME: this does not work as it causes in worst cases (especially from Kuntokatu to TUT)
+     * a problem when already passed times are shown.
+     *
+     * TODO: compare the time of the bus departing, which is (usually) not the first loc of the first leg.
      */
     const diff = departureTime.getTime() - now.getTime();
     return diff <= -180000;
