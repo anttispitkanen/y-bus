@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import keskusta from './keskusta';
+import routesReducer from './routesReducer';
 
 const AppReducer = combineReducers({
-    keskusta
+    routesReducer
 });
 
 export default AppReducer;
