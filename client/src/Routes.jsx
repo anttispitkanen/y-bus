@@ -1,16 +1,20 @@
 import React from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import {
+    Switch,
+    Route
+} from 'react-router-dom';
 
-import App from './App.js';
-import NotFound from './views/NotFound.jsx';
+import BusSchedules from './views/BusSchedules';
+import NotFound from './components/NotFound.jsx';
 import Keskusta from './views/Keskusta.jsx';
 
+// TODO: replace "/keskusta" with a generic route and component
 const Routes = (props) => (
-    <Router history={browserHistory}>
-        <Route path="/" component={App} />
+    <Switch>
+        <Route path="/" component={BusSchedules} />
         <Route path="/keskusta" component={Keskusta} />
         <Route path="*" component={NotFound} />
-    </Router>
+    </Switch>
 );
 
 export default Routes;

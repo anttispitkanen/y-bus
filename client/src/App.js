@@ -1,38 +1,34 @@
 import React, { Component } from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
+
 import './App.css';
 
-import BusSchedules from './views/BusSchedules.jsx';
-import TestMap from './views/TestMap.jsx';
+import Routes from './Routes';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AppReducer from './reducers';
+
+const history = createHistory();
+const store = createStore(AppReducer);
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-          <header>
-              <a href="/">
-                  <h1><span>Y</span>-bus</h1>
-              </a>
-
-          </header>
-
-          <h4>Where are you?</h4>
-
-          <BusSchedules />
-
-          <TestMap />
-
-          <footer>
-              <a className="y-logo f-elem" href="http://y-kampus.fi" target="_blank">
-                  <img src="./images/y-kampus-small.png" alt=""/>
-              </a>
-
-              <span className="copyright f-elem">
-                  © 2017 <a href="https://github.com/anttispitkanen" target="_blank">Antti Pitkänen</a>
-              </span>
-          </footer>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Router history={history}>
+                    <div className="App">
+                        <Header />
+                        <h4 className="tagline">Buses between Tampere3 universities</h4>
+                        <Routes />
+                        <Footer />
+                    </div>
+                </Router>
+            </Provider>
+        );
+    }
 }
 
 export default App;
