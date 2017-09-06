@@ -2,6 +2,7 @@
     "unis": [
         {
             "name": "Keskusta",
+            "id": "keskusta",
             "imgSrc": "images/utaen-small.png",
             "destinations": [
                 {
@@ -14,6 +15,7 @@
             ]
         }, {
             "name": "Hervanta",
+            "id": "hervanta",
             "imgSrc": "images/tuten-small.png",
             "destinations": [
                 {
@@ -26,6 +28,7 @@
             ]
         }, {
             "name": "Kauppi",
+            "id": "kauppi",
             "imgSrc": "images/tamken2-small.png",
             "destinations": [
                 {

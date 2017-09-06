@@ -41,6 +41,7 @@ export default class SingleRoute extends React.Component {
             }
 
         })
+        .catch(e => console.error(e));
     }
 
     parseDeparture(data) {

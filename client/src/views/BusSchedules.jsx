@@ -8,6 +8,7 @@ export default class BusSchedules extends React.Component {
     render() {
         return(
             <div className="bus-schedules">
+                <h4 className="tagline">Buses between Tampere3 universities</h4>
                 { unis.map(uni => {
                     return (<SingleBusSchedule
                             name={uni.name}

@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import { BrowserRouter as Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
-
-import './App.css';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import Routes from './Routes';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppReducer from './reducers';
+import { AppSaga } from './sagas';
+import './App.css';
 
 const history = createHistory();
-const store = createStore(AppReducer);
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+    AppReducer,
+    composeWithDevTools(
+        applyMiddleware(sagaMiddleware)
+    )
+);
+
+sagaMiddleware.run(AppSaga);
 
 class App extends Component {
     render() {
@@ -21,7 +32,6 @@ class App extends Component {
                 <Router history={history}>
                     <div className="App">
                         <Header />
-                        <h4 className="tagline">Buses between Tampere3 universities</h4>
                         <Routes />
                         <Footer />
                     </div>
