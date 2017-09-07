@@ -166,13 +166,24 @@ a {
     font-style: italic;
 }
 
-.bus-schedules {
+
+/* ////////////// */
+/* MAIN SCHEDULES */
+/* ////////////// */
+.main-schedules-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    color: var(--y-grey);
-    align-content: stretch;
 }
+
+.main-schedules {
+    display: flex;
+    flex-direction: column;
+    color: var(--y-grey);
+    padding: 3px;
+}
+/* ////////////// */
+/* MAIN SCHEDULES */
+/* ////////////// */
 
 .uni {
     flex: 1 1 auto;
@@ -181,7 +192,7 @@ a {
     flex-grow: 1;
     align-items: center;
     border-left: 10px solid var(--y-green);
-    margin: 10px;
+    margin: 10px 0;
     padding: 20px 15px;
 	width: 100%;
     max-width: 800px;
@@ -351,7 +362,7 @@ footer, header {
 
 @media screen and (max-width: 500px) {
     .uni {
-        margin: 10px 1px;
+        margin: 10px 0px;
         padding: 20px 5px;
     }
 
