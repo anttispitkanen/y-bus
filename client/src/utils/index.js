@@ -102,3 +102,14 @@ export const parseStop = data => {
         return 'Can\'t parse stop';
     }
 }
+
+// helper function for doing a console.error() only if we are NOT
+// in testing environment
+export const logError = errorMsg => {
+    // Jest sets NODE_ENV='test', check that here
+    if (process.env.NODE_ENV === 'test') {
+        // we don't want to log expected errors in tests
+        return;
+    }
+    return console.error(errorMsg);
+}

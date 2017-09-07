@@ -4,6 +4,7 @@ import {
     routesFetchSuccess
 } from '../actions/routeActions';
 import { ROUTES_FETCH } from '../constants';
+import { logError } from '../utils';
 
 // watcher saga
 export function* watchFetchRoute() {
@@ -28,7 +29,7 @@ export const apiClient = routeName => (
         }
     })
     .catch(err => {
-        console.error(err);
+        logError(err);
         throw Error(err);
     })
 );
@@ -39,7 +40,7 @@ export function* fetchRoute(action) {
         const routes = yield call(apiClient, action.name);
         yield put(routesFetchSuccess(action.name, routes));
     } catch (e) {
-        console.error(e);
+        logError(e);
         yield put(routesFetchFail(action.name));
     }
 }
