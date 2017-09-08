@@ -28,6 +28,7 @@ const SingleUniPage = ({ match }) => {
                 {uni.destinations.map(destination => (
                     <UniDepartures
                         key={destination.route}
+                        from={uni.name}
                         name={destination.name}
                         route={destination.route}
                     />

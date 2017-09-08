@@ -24,7 +24,7 @@ export default class Header extends React.Component {
     render() {
         return(
             <header className="header">
-                <Link to="/">
+                <Link to="/" onClick={this.closeMenu}>
                     <h1 className="main-heading"><span>Y</span>-bus</h1>
                 </Link>
 

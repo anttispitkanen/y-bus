@@ -12,7 +12,7 @@ const SingleUniSchedule = ({
     <div className="uni">
         <Link to={`/${id}`}>
             <div className="uni-name-image">
-                <h2>{name}</h2>
+                <h2>From {name}</h2>
                 <img src={imgSrc} alt={`${name} logo`} />
             </div>
         </Link>

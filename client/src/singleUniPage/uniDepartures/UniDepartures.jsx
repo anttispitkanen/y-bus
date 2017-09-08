@@ -7,6 +7,8 @@ import SingleRouteCard from './SingleRouteCard';
 
 class UniDepartures extends Component {
     componentDidMount() {
+        window.scrollTo(0, 0);
+
         const { route, uni, routesFetch } = this.props;
 
         // Fetch routes if they are not already in state
@@ -37,6 +39,8 @@ class UniDepartures extends Component {
                     <SingleRouteCard
                         key={i}
                         routeData={route[0]}
+                        from={this.props.from}
+                        to={this.props.name}
                     />
                 ))}
             </div>

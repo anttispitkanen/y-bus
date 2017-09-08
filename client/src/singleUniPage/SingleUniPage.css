@@ -51,6 +51,42 @@
     margin: 30px 0;
 }
 
+.single-route-card {
+	margin: 10px 0;
+	padding: 15px;
+	width: 100%;
+	border-left: 5px solid var(--y-green);
+	box-shadow: 1px 1px 4px -1px var(--y-grey);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.icon-route-card-name-container {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.fa-bus {
+	color: var(--y-green);
+	font-size: 2rem;
+	padding: 20px 30px 20px 20px;
+}
+
+.single-route-card-info {
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 1.3rem;
+	margin-left: 13px;
+}
+
+.single-route-card-info p {
+	margin: 7px;
+}
+
 @media screen and (max-width: 500px) {
     .single-uni-page {
         padding: 3px;
