@@ -188,6 +188,9 @@ a {
 /* MAIN SCHEDULES */
 /* ////////////// */
 
+/*////////////*/
+/* UNI STYLES */
+/*////////////*/
 .uni {
     flex: 1 1 auto;
     display: flex;
@@ -219,7 +222,7 @@ a {
     margin: 0;
 }
 
-.uni .spinner {
+.spinner {
     height: 30px;
     width: 30px;
     border-radius: 100%;
@@ -281,9 +284,6 @@ img {
 .single-route-info p {
 	margin: 7px;
 }
-
-
-/**/
 
 footer {
     background-color: var(--y-grey);

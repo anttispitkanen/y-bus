@@ -1,0 +1,58 @@
+/**
+* Styles for SingleUniPage and its children.
+*/
+.single-uni-page-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.single-uni-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--y-grey);
+    padding: 15px;
+    width: 100%;
+    max-width: 750px;
+}
+
+.next-buses-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin: 30px 0 10px;
+}
+
+.uni-name-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.single-uni-page-heading {
+    color: var(--y-green);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.uni-name-image-container {
+    font-size: 1.2rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--y-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+}
+
+@media screen and (max-width: 500px) {
+    .single-uni-page {
+        padding: 3px;
+    }
+}

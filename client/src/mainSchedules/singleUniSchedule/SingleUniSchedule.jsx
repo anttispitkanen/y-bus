@@ -17,7 +17,6 @@ const SingleUniSchedule = ({
             </div>
         </Link>
 
-        {/* TODO: map to actual route cards */}
         {destinations.map(destination => (
             <RouteCard
                 routeName={destination.route}
