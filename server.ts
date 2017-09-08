@@ -12,6 +12,10 @@ app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
+
 app.listen(app.get('port'), () => {
     console.log('listening on port ' + app.get('port'));
 });
