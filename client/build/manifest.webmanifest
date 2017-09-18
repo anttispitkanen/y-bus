@@ -1,11 +1,10 @@
 {
     "name": "Y-bus",
     "short_name": "Y-bus",
-    "start_url": "/index.html",
-    "display": "standalone",
-    "orientation": "portrait",
+    "start_url": "/",
+    "display": "minimal-ui",
     "background_color": "#F1F1F1",
-    "theme_color": "#333431",
+    "theme_color": "#95d600",
     "description": "Y-bus – Buses between Tampere3 universities",
     "icons": [
         {
