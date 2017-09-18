@@ -52,20 +52,20 @@ export const parseLineNumber = data => {
     try {
         let lineNum;
 
-        //usually the first leg is walking to the stop
+        // usually the first leg is walking to the stop
         if (data.legs[0].type === 'walk') {
-            //in that case focus on the second leg
+            // in that case focus on the second leg
             if (data.legs.length > 1) {
-                //grab the first leg's departure time as THE TIME THAT THE BUS DEPARTS
+                // grab the first bus' code
                 lineNum = data.legs[1].code;
             } else {
+                // the whole route is walking
                 return 'It\'s fastest to walk';
             }
 
         } else {
-            //this in case there is no walking to the stop
-            //i.e. being on the stop already (hypotethical in this case)
-            lineNum = 'It\'s fastest to walk';
+            // the first leg is a bus, grab the code from that
+            lineNum = data.legs[0].code;
         }
         return lineNum;
     } catch (e) {
@@ -77,18 +77,20 @@ export const parseLineNumber = data => {
 //returns the line number as a link to the real time monitoring in Lissu
 export const parseStop = data => {
     try {
-        let stop;
+        let stop; // the name of the stop (like "Sammonkatu 66")
         let stopCode;
 
-        // Test if the first leg's last loc is a stop or not.
-        // If it isn't, the whole thing is just walking.
-        if (data.legs[0].locs.slice(-1).pop().name) {
+        // if route starts from a bus stop = the first loc is a stop
+        if (data.legs[0].locs[0].name) {
+            stop = data.legs[0].locs[0].name;
+            stopCode = data.legs[0].locs[0].code;
 
-            //assign the name of the stop (like "Sammonkatu 66")
+        // Test if the first leg's last loc is a stop or not.
+        } else if (data.legs[0].locs.slice(-1).pop().name) {
             stop = data.legs[0].locs.slice(-1).pop().name;
-            //assign the stop's code
             stopCode = data.legs[0].locs.slice(-1).pop().code;
 
+        // If it isn't, the whole thing is just walking.
         } else {
             return 'It\'s best to walk';
         }
@@ -112,4 +114,53 @@ export const logError = errorMsg => {
         return;
     }
     return console.error(errorMsg);
+}
+
+/**
+ * Returns true if route information is no longer valid, false otherwise.
+ * @param {[Route []]} previousRoute the previously stored route
+ * @param {Date} now the Date object for current time
+ */
+export const routeShouldBeUpdated = (previousRoute, now) => {
+    if (!previousRoute) {
+        return true; // if there's no previous route, it should be updated
+    }
+
+    const departure = previousRoute[0][0];
+    const departureTime = parseDepartureAsDate(findDepartureTimeString(departure));
+
+    if (!departureTime) {
+        return true;
+    }
+
+    // Return true if current time is more than the time the previous departure time is.
+    return departureTime.getTime() < now.getTime();
+}
+
+export const parseDepartureAsDate = depString => {
+    // API returns times as strings "YYYYMMDDHHMM",
+    // parse that as a date
+    try {
+        const year = parseInt(depString.slice(0, 4));
+        const month = parseInt(depString.slice(4, 6)) - 1;
+        const day = parseInt(depString.slice(6, 8));
+        const hour = parseInt(depString.slice(8, 10));
+        const minute = parseInt(depString.slice(10, 12));
+        return new Date(year, month, day, hour, minute);
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+// finds and returns the departure time string for the bus departing
+export const findDepartureTimeString = route => {
+    /**
+     * If the first leg is bus, return the departure time for that leg.
+     * Otherwise if the first leg is walking, return the departure time
+     * for the second leg.
+     */
+    return route.legs[0].type === 'walk'
+            ? route.legs[1].locs[0].depTime
+            : route.legs[0].locs[0].depTime;
 }
