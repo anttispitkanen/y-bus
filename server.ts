@@ -17,10 +17,6 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'client', 'build')));
 }
 
-app.listen(app.get('port'), () => {
-    console.log('listening on port ' + app.get('port'));
-});
-
 // University coordinates
 const UTA_COORDS: string = '3328662.500000,6825009.000000';
 const TUT_COORDS: string = '3332742.500000,6819846.000000';
@@ -116,8 +112,8 @@ const setParams = (params, from: string, to: string): void => {
     params.set('pass', process.env.API_PW);
     params.set('request', 'route');
     params.set('detail', 'limited');
-    params.set('from', from);
-    params.set('to', to);
+    params.set('from', decodeURIComponent(from));
+    params.set('to', decodeURIComponent(to));
     params.set('change_cost', 20);
     params.set('walk_cost', 2);
 }
@@ -157,45 +153,20 @@ const routeShouldBeUpdated = (previousRoute: [ Route[] ] | null, now: Date): boo
     }
 
     const departure: Route = previousRoute[0][0];
-    const departureTime: Date | null = parseDepartureTime(departure);
+    const departureTime: Date | null = parseDepartureTime(findDepartureTimeString(departure));
 
     if (!departureTime) {
         return true;
     }
-    /**
-     * This part is problematic in a way.
-     *
-     * We compare current time to the time that the API gives us to
-     * START WALKING TO THE STOP in order to make it in time.
-     *
-     * This works if the user is at the campus and is looking for the next
-     * bus they could make it to. This however does not work for someone
-     * standing at the bus stop, because it may skip some buses that are
-     * coming sooner.
-     *
-     * Instead of writing complex logic, we'll try adding a threshold of
-     * 3 minutes (18000ms) to counter the problems of the time it takes to
-     * walk to the stop.
-     *
-     * This means that the API calculates the time to walk from a given
-     * location to the stop to be X minutes, and we treat that as X-3 minutes.
-     * In other words we over estimate a person's walking speed by three minutes.
-     *
-     * FIXME: this does not work as it causes in worst cases (especially from Kuntokatu to TUT)
-     * a problem when already passed times are shown.
-     *
-     * TODO: compare the time of the bus departing, which is (usually) not the first loc of the first leg.
-     */
-    const diff = departureTime.getTime() - now.getTime();
-    return diff <= -180000;
+
+    // Return true if current time is more than the time the previous departure time is.
+    return departureTime.getTime() < now.getTime();
 }
 
-const parseDepartureTime = (route: Route): Date | null => {
+export const parseDepartureTime = (depString: string): Date | null => {
     // API returns times as strings "YYYYMMDDHHMM",
     // parse that as a date
     try {
-        const depString: string = route.legs[0].locs[0].depTime;
-
         const year: number = parseInt(depString.slice(0, 4));
         const month: number = parseInt(depString.slice(4, 6)) - 1;
         const day: number = parseInt(depString.slice(6, 8));
@@ -208,13 +179,32 @@ const parseDepartureTime = (route: Route): Date | null => {
     }
 }
 
-// update routes on server startup...
-updateRoutes();
+// finds and returns the departure time string for the bus departing
+export const findDepartureTimeString = (route: Route): string => {
+    /**
+     * If the first leg is bus, return the departure time for that leg.
+     * Otherwise if the first leg is walking, return the departure time
+     * for the second leg.
+     */
+    return route.legs[0].type === 'walk'
+            ? route.legs[1].locs[0].depTime
+            : route.legs[0].locs[0].depTime;
+}
 
-// ...and then every 60 seconds
-setInterval(() => {
+// don't run server in test environment
+if (process.env.NODE_ENV !== 'test') {
+    // update routes on server startup...
     updateRoutes();
-}, 60000);
+
+    // ...and then every 60 seconds
+    setInterval(() => {
+        updateRoutes();
+    }, 60000);
+
+    app.listen(app.get('port'), () => {
+        console.log('listening on port ' + app.get('port'));
+    });
+}
 
 // respond to the client requests with the stored route data
 app.post('/route', (req, res) => {
@@ -237,6 +227,7 @@ app.post('/route', (req, res) => {
     }
 });
 
+// Respond to all requests with index.html and let React Router do the routing.
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
