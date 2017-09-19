@@ -116,6 +116,34 @@ export const logError = errorMsg => {
     return console.error(errorMsg);
 }
 
+// finds and returns the departure time string for the bus departing
+export const findDepartureTimeString = route => {
+    /**
+     * If the first leg is bus, return the departure time for that leg.
+     * Otherwise if the first leg is walking, return the departure time
+     * for the second leg.
+     */
+    return route.legs[0].type === 'walk'
+            ? route.legs[1].locs[0].depTime
+            : route.legs[0].locs[0].depTime;
+}
+
+export const parseDepartureAsDate = depString => {
+    // API returns times as strings "YYYYMMDDHHMM",
+    // parse that as a date
+    try {
+        const year = parseInt(depString.slice(0, 4), 10);
+        const month = parseInt(depString.slice(4, 6), 10) - 1;
+        const day = parseInt(depString.slice(6, 8), 10);
+        const hour = parseInt(depString.slice(8, 10), 10);
+        const minute = parseInt(depString.slice(10, 12), 10);
+        return new Date(year, month, day, hour, minute);
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
 /**
  * Returns true if route information is no longer valid, false otherwise.
  * @param {[Route []]} previousRoute the previously stored route
@@ -135,32 +163,4 @@ export const routeShouldBeUpdated = (previousRoute, now) => {
 
     // Return true if current time is more than the time the previous departure time is.
     return departureTime.getTime() < now.getTime();
-}
-
-export const parseDepartureAsDate = depString => {
-    // API returns times as strings "YYYYMMDDHHMM",
-    // parse that as a date
-    try {
-        const year = parseInt(depString.slice(0, 4));
-        const month = parseInt(depString.slice(4, 6)) - 1;
-        const day = parseInt(depString.slice(6, 8));
-        const hour = parseInt(depString.slice(8, 10));
-        const minute = parseInt(depString.slice(10, 12));
-        return new Date(year, month, day, hour, minute);
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
-
-// finds and returns the departure time string for the bus departing
-export const findDepartureTimeString = route => {
-    /**
-     * If the first leg is bus, return the departure time for that leg.
-     * Otherwise if the first leg is walking, return the departure time
-     * for the second leg.
-     */
-    return route.legs[0].type === 'walk'
-            ? route.legs[1].locs[0].depTime
-            : route.legs[0].locs[0].depTime;
 }
