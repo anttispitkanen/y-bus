@@ -3,6 +3,7 @@ import {
     ROUTES_FETCH,
     ROUTES_FETCH_FAIL
 } from '../../constants';
+import { routeShouldBeUpdated } from '../../utils';
 import SingleRouteCard from './SingleRouteCard';
 
 class UniDepartures extends Component {
@@ -14,6 +15,12 @@ class UniDepartures extends Component {
         // Fetch routes if they are not already in state
         if (!uni || !uni.routes || uni.routes.length === 0) {
             routesFetch(route);
+
+        // if routes exist in state, only update them if they are no longer valid
+        } else {
+            if (routeShouldBeUpdated(uni.routes, new Date())) {
+                routesFetch(route);
+            }
         }
     }
 
