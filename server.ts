@@ -206,14 +206,24 @@ if (process.env.NODE_ENV !== 'test') {
     });
 }
 
+/**
+ * Find and parse the departure time of the first bus/walk for the given route
+ * to be used as the Expires header for caching in client.
+ * @param route[Route] the route in question, whick is the [0][0] of the requested latestRoutes[name]
+ */
+const findRouteExpirationDate = (route: Route): Date => (
+    parseDepartureTime(findDepartureTimeString(route))
+);
+
 // respond to the client requests with the stored route data
 app.get('/route/:id', (req, res) => {
-    const name = req.params.id;
+    const name: string = req.params.id;
 
     // if the route doesn't exist yet, fetch all routes before responding
     if (!latestRoutes[name]) {
         updateRoutes()
         .then(() => {
+            res.set('Expires', findRouteExpirationDate(latestRoutes[name][0][0]));
             res.send(latestRoutes[name])
         })
         .catch(err => {
@@ -223,6 +233,7 @@ app.get('/route/:id', (req, res) => {
         });
     } else {
         // if route is already known, respond with it
+        res.set('Expires', findRouteExpirationDate(latestRoutes[name][0][0]));
         res.send(latestRoutes[name]);
     }
 });
