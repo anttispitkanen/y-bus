@@ -12,15 +12,7 @@ export function* watchFetchRoute() {
 }
 
 export const apiClient = routeName => (
-    fetch('/route', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: routeName
-        })
-    })
+    fetch(`/route/${routeName}`)
     .then(res => {
         if (res.ok) {
             return res.json();

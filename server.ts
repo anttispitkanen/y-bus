@@ -207,8 +207,8 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // respond to the client requests with the stored route data
-app.post('/route', (req, res) => {
-    const { name } = req.body;
+app.get('/route/:id', (req, res) => {
+    const name = req.params.id;
 
     // if the route doesn't exist yet, fetch all routes before responding
     if (!latestRoutes[name]) {
